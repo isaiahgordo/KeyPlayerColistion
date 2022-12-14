@@ -13,6 +13,7 @@ namespace KeyPlayerColistion
         Coin coin;
         Texture2D playText,coinText,badGuyText,wallText;
         SpriteFont font;
+        Rectangle mater;
         int gPH,gPW,lives;
         Screen screen;
         bool phit,bhit;
@@ -39,7 +40,8 @@ namespace KeyPlayerColistion
             base.Initialize();
             player = new Player(playText, new Rectangle(0, gPH, 100, 100), new Vector2((float)12.5, 200), Color.White);            
             badguy = new Badguy(badGuyText, new Rectangle(190, gPH , 100, 100), new Vector2((float)6.25, 0), Color.White);
-            coin = new Coin(coinText, coinText, new Rectangle(280, 280, 25, 25), new Rectangle(gPW+75, 0, 25, 25), Color.White,new Vector2(gPW-50,0));            
+            coin = new Coin(coinText, coinText, new Rectangle(280, 280, 25, 25), new Rectangle(gPW+75, 0, 25, 25), Color.White,new Vector2(gPW-50,0));
+            mater = player.PlayerBounds;
         }
 
         protected override void LoadContent()
@@ -69,6 +71,7 @@ namespace KeyPlayerColistion
                 phit = player.PlayHitbyBady(player.PlayerBounds, badguy.BadBounds);bhit= badguy.BadTopHit(badguy.BadBounds, player.PlayerBounds);
                 player.Move(_graphics, kState);
                 badguy.Move(_graphics);
+                if(callerl==(0,gPH))
             }
             else if (screen == Screen.End)
             {
@@ -97,8 +100,7 @@ namespace KeyPlayerColistion
                 }
                 else
                 {
-                    callerl =new Point(0, gPH);
-                    player.PlayerBounds.Location = callerl;
+                    callerl =new Point(0, gPH);                    
                     lives --;
                     _spriteBatch.DrawString(font, lives.ToString(), new Vector2(0, 0), Color.Blue);
                 }
