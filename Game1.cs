@@ -31,32 +31,32 @@ namespace KeyPlayerColistion
 
         protected override void Initialize()
         {
-            lives = 3;
-            callerl = player.PlayerBounds.Location;
+            lives = 3;            
             // TODO: Add your initialization logic here
             screen = Screen.Intro;
             gPH = _graphics.PreferredBackBufferHeight-100;
             gPW = _graphics.PreferredBackBufferWidth-100;
             base.Initialize();
-            player = new Player(playText, new Rectangle(0, gPH, 100, 100), new Vector2((float)12.5, 200), Color.White);            
+            player = new Player(playText, new Rectangle(0, gPH, 100, 100), new Vector2((float)12.5, 100), Color.White);            
             badguy = new Badguy(badGuyText, new Rectangle(190, gPH , 100, 100), new Vector2((float)6.25, 0), Color.White);
             coin = new Coin(coinText, coinText, new Rectangle(280, 280, 25, 25), new Rectangle(gPW+75, 0, 25, 25), Color.White,new Vector2(gPW-50,0));
             mater = player.PlayerBounds;
         }
 
         protected override void LoadContent()
-        {
+        {            
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             playText = Content.Load<Texture2D>("ballFace");
             coinText = Content.Load<Texture2D>("Coin");
             badGuyText = Content.Load<Texture2D>("redEye");
             wallText = Content.Load<Texture2D>("Rockwall");
             font = Content.Load<SpriteFont>("File");
-            // TODO: use this.Content to load your game content here
+            // TODO: use this.Content to load your game content here            
         }
 
         protected override void Update(GameTime gameTime)
         {
+            callerl = player.PlayerBounds.Location;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             KeyboardState kState = Keyboard.GetState();
@@ -71,7 +71,10 @@ namespace KeyPlayerColistion
                 phit = player.PlayHitbyBady(player.PlayerBounds, badguy.BadBounds);bhit= badguy.BadTopHit(badguy.BadBounds, player.PlayerBounds);
                 player.Move(_graphics, kState);
                 badguy.Move(_graphics);
-                if(callerl==(0,gPH))
+                if(callerl==new Point(0,gPH))
+                {
+
+                }
             }
             else if (screen == Screen.End)
             {

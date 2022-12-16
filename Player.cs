@@ -16,6 +16,7 @@ namespace KeyPlayerColistion
         private Vector2 _playerSpeed;
         private Color _playerColor;
         private float gravity;
+        private bool gravon;
         public Player(Texture2D playerTexture, Rectangle playerBounds, Vector2 playerSpeed, Color playerColor)
         {
             _playerTexture = playerTexture;
@@ -23,6 +24,7 @@ namespace KeyPlayerColistion
             _playerSpeed = playerSpeed;
             _playerColor = playerColor;
             gravity = 25f;
+            gravon = true;
         }
         public Texture2D PlayerTexture
         {
@@ -49,35 +51,47 @@ namespace KeyPlayerColistion
                 return true;
             else return false;
         }
-        public void Move(GraphicsDeviceManager graphic,KeyboardState state)
+        public void Move(GraphicsDeviceManager graphic, KeyboardState state)
         {
             PlayerBounds.Offset(_playerSpeed);
-            while (_playerBounds.Bottom < graphic.PreferredBackBufferHeight)
+            while (_playerBounds.Bottom < graphic.PreferredBackBufferHeight&&gravon==true)            
                 _playerBounds.Y += (int)gravity;
             if (state.IsKeyDown(Keys.A))
             {
                 if (PlayerBounds.X - _playerSpeed.X < 0)
                     _playerBounds.X = 0;
                 else
-                    _playerBounds.X -=(int) _playerSpeed.X;
+                    _playerBounds.X -= (int)_playerSpeed.X;
             }
-            if(state.IsKeyDown(Keys.D))
+            if (state.IsKeyDown(Keys.D))
             {
-                if (PlayerBounds.X + _playerSpeed.X > graphic.PreferredBackBufferWidth-100)
-                    _playerBounds.X = graphic.PreferredBackBufferWidth-100;
+                if (PlayerBounds.X + _playerSpeed.X > graphic.PreferredBackBufferWidth - 100)
+                    _playerBounds.X = graphic.PreferredBackBufferWidth - 100;
                 else
-                    _playerBounds.X +=(int) _playerSpeed.X;
+                    _playerBounds.X += (int)_playerSpeed.X;
             }
-            if(state.IsKeyDown(Keys.S))
+            if (state.IsKeyDown(Keys.S))
             {
 
             }
-            if(state.IsKeyDown(Keys.W))
-            {                
-                if (PlayerBounds.Bottom < graphic.PreferredBackBufferHeight)
+            if (state.IsKeyDown(Keys.W))
+            {                    
+                if (PlayerBounds.Bottom > graphic.PreferredBackBufferHeight)
                     _playerBounds.Y = graphic.PreferredBackBufferHeight - 100;
-                _playerBounds.Y -= (int)_playerSpeed.Y;                                
+                else if (PlayerBounds.Bottom <= graphic.PreferredBackBufferHeight - 300)
+                {
+                    _playerBounds.Y+=(int)_playerSpeed.Y;
+                    _playerBounds.Y += (int)_playerSpeed.Y;
+                    gravon = true;
+                }
+                else
+                {
+                    _playerBounds.Y -= (int)_playerSpeed.Y;
+                    _playerBounds.Y -= (int)_playerSpeed.Y;
+                    gravon = false;
+                }
             }
+                       
         }
         public void Draw(SpriteBatch sprite)
         {
